@@ -129,11 +129,15 @@ export async function main() {
     outputReleases(await manifest.createReleases());
   }
 
+  core.info('On line 132')
+  const manifest = await loadOrBuildManifest(github, inputs);
   if (!inputs.skipGitHubPullRequest) {
-    const manifest = await loadOrBuildManifest(github, inputs);
+    core.info('This is manifest repositoryConfig stringified:' + JSON.stringify(manifest.repositoryConfig))
     core.debug('Creating pull requests');
+    core.info('This is manifest signoffUser:' + (<any>manifest).signoffUser)
     outputPRs(await manifest.createPullRequests());
   }
+  core.info('This is manifest signoffUser:' + (<any>manifest).signoffUser)
 }
 
 function getGitHubInstance(inputs: ActionInputs): Promise<GitHub> {
